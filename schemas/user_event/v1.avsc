@@ -1,0 +1,11 @@
+{
+    "type": "record",
+    "name": "UserEvent",
+    "namespace": "com.example.kafka",
+    "fields": [
+        {"name": "user_id", "type": "string"},
+        {"name": "event_type", "type": "string"},
+        {"name": "timestamp", "type": "long"},
+        {"name": "properties", "type": ["null", {"type": "map", "values": "string"}], "default": null}
+    ]
+}

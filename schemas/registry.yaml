@@ -1,0 +1,7 @@
+registry:
+  name: "Local Schema Registry"
+  version: "1.0.0"
+  schemas_directory: "schemas"
+  default_compatibility: "BACKWARD"
+  cache_enabled: true
+  cache_ttl: 3600

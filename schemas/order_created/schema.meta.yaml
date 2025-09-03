@@ -1,0 +1,7 @@
+name: "order_created"
+description: "Order creation events"
+compatibility: "BACKWARD"
+created_at: "2024-01-15T10:30:00Z"
+updated_at: "2024-01-15T10:30:00Z"
+version: 1
+tags: ["order", "ecommerce"]

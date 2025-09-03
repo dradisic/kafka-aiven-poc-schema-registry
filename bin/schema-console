@@ -1,0 +1,27 @@
+#!/usr/bin/env php
+<?php
+
+require dirname(__DIR__) . '/vendor/autoload.php';
+
+use App\Schema\SchemaStore;
+use App\Schema\SchemaMetadataManager;
+use App\Service\SchemaManager;
+use App\Command\SchemaListCommand;
+use App\Command\SchemaValidateCommand;
+use App\Command\SchemaMigrationCommand;
+use Symfony\Component\Console\Application;
+
+$application = new Application('Schema Registry Console', '1.0.0');
+
+// Initialize services
+$schemasDirectory = dirname(__DIR__) . '/schemas';
+$schemaStore = new SchemaStore($schemasDirectory);
+$metadataManager = new SchemaMetadataManager($schemaStore);
+$schemaManager = new SchemaManager($schemaStore, $metadataManager);
+
+// Add commands
+$application->add(new SchemaListCommand($schemaStore, $metadataManager));
+$application->add(new SchemaValidateCommand($schemaManager));
+$application->add(new SchemaMigrationCommand($schemaStore, $metadataManager, $schemaManager));
+
+$application->run();

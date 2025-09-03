@@ -1,0 +1,14 @@
+{
+    "type": "record",
+    "name": "OrderUpdated",
+    "namespace": "com.example.kafka",
+    "fields": [
+        {"name": "order_id", "type": "string"},
+        {"name": "customer_id", "type": "string"},
+        {"name": "total_amount", "type": "double"},
+        {"name": "currency", "type": "string"},
+        {"name": "updated_at", "type": "long"},
+        {"name": "status", "type": "string"},
+        {"name": "changes", "type": {"type": "map", "values": "string"}}
+    ]
+}

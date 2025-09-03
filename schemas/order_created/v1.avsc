@@ -1,0 +1,21 @@
+{
+    "type": "record",
+    "name": "OrderCreated",
+    "namespace": "com.example.kafka",
+    "fields": [
+        {"name": "order_id", "type": "string"},
+        {"name": "customer_id", "type": "string"},
+        {"name": "total_amount", "type": "double"},
+        {"name": "currency", "type": "string"},
+        {"name": "created_at", "type": "long"},
+        {"name": "items", "type": {"type": "array", "items": {
+            "type": "record",
+            "name": "OrderItem",
+            "fields": [
+                {"name": "product_id", "type": "string"},
+                {"name": "quantity", "type": "int"},
+                {"name": "price", "type": "double"}
+            ]
+        }}}
+    ]
+}

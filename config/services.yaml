@@ -1,0 +1,68 @@
+services:
+    # Default configuration for services
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    # Make classes in src/ available for dependency injection
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+
+    # Schema Store configuration
+    App\Schema\SchemaStore:
+        arguments:
+            $schemasDirectory: '%kernel.project_dir%/schemas'
+            $cacheEnabled: true
+
+    # Schema Metadata Manager
+    App\Schema\SchemaMetadataManager:
+        arguments:
+            $schemaStore: '@App\Schema\SchemaStore'
+
+    # Filesystem Schema Resolver
+    App\Schema\Resolver\FilesystemSchemaResolver:
+        arguments:
+            $schemaStore: '@App\Schema\SchemaStore'
+
+    # Schema Manager (main service)
+    App\Service\SchemaManager:
+        arguments:
+            $schemaStore: '@App\Schema\SchemaStore'
+            $metadataManager: '@App\Schema\SchemaMetadataManager'
+            $logger: '@logger'
+
+    # Interface binding
+    App\Service\SchemaManagerInterface: '@App\Service\SchemaManager'
+
+    # Commands
+    App\Command\SchemaMigrationCommand:
+        arguments:
+            $schemaStore: '@App\Schema\SchemaStore'
+            $metadataManager: '@App\Schema\SchemaMetadataManager'
+            $schemaManager: '@App\Service\SchemaManagerInterface'
+        tags:
+            - { name: console.command }
+
+    App\Command\SchemaListCommand:
+        arguments:
+            $schemaStore: '@App\Schema\SchemaStore'
+            $metadataManager: '@App\Schema\SchemaMetadataManager'
+        tags:
+            - { name: console.command }
+
+    App\Command\SchemaValidateCommand:
+        arguments:
+            $schemaManager: '@App\Service\SchemaManagerInterface'
+        tags:
+            - { name: console.command }
+
+parameters:
+    # Schema configuration
+    schema.directory: '%kernel.project_dir%/schemas'
+    schema.cache_enabled: true
+    schema.cache_ttl: 3600

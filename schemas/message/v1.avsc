@@ -1,0 +1,11 @@
+{
+    "type": "record",
+    "name": "Message",
+    "namespace": "com.example.kafka",
+    "fields": [
+        {"name": "id", "type": "string"},
+        {"name": "timestamp", "type": "long"},
+        {"name": "payload", "type": "string"},
+        {"name": "metadata", "type": ["null", {"type": "map", "values": "string"}], "default": null}
+    ]
+}
