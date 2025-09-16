@@ -1,5 +1,5 @@
 {
-    "name": "kafka-aiven/poc-schema-registry",
+    "name": "dradisic/kafka-aiven-poc-schema-registry",
     "description": "Filesystem-based Avro schema management library for Kafka",
     "type": "library",
     "license": "MIT",
