@@ -2,10 +2,8 @@
 <?php
 
 use Dradisic\KafkaSchema\Kernel;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Dotenv\Dotenv;
-
 if (!is_file(dirname(__DIR__).'/vendor/autoload.php')) {
     throw new LogicException('Dependencies are missing. Try running "composer install".');
 }
@@ -13,7 +11,7 @@ if (!is_file(dirname(__DIR__).'/vendor/autoload.php')) {
 require dirname(__DIR__).'/vendor/autoload.php';
 
 if (!class_exists(Application::class)) {
-    throw new LogicException('You need to add "symfony/framework-bundle" as a Composer dependency.');
+    throw new LogicException('You need to add "symfony/console" as a Composer dependency.');
 }
 
 $input = new ArgvInput();
@@ -25,8 +23,34 @@ if ($input->hasParameterOption('--no-debug', true)) {
     putenv('APP_DEBUG='.$_SERVER['APP_DEBUG'] = $_ENV['APP_DEBUG'] = '0');
 }
 
-(new Dotenv())->bootEnv(dirname(__DIR__).'/.env');
+// Load environment variables from .env file if it exists
+$envFile = dirname(__DIR__).'/.env';
+if (is_file($envFile)) {
+    $envContent = file_get_contents($envFile);
+    foreach (explode("\n", $envContent) as $line) {
+        $line = trim($line);
+        if ($line && strpos($line, '=') !== false && strpos($line, '#') !== 0) {
+            [$key, $value] = explode('=', $line, 2);
+            $_ENV[trim($key)] = trim($value);
+            $_SERVER[trim($key)] = trim($value);
+        }
+    }
+}
 
-$kernel = new Kernel($_SERVER['APP_ENV'] ?? 'dev', (bool) ($_SERVER['APP_DEBUG'] ?? true));
-$application = new Application($kernel);
+// Simple console application without full Symfony framework
+// For full dependency injection, use bin/schema-console instead
+
+$application = new Application('Schema Registry Console (Simple)', '1.1.0');
+
+// Manually instantiate services (without DI container)
+$schemasDirectory = dirname(__DIR__) . '/schemas';
+$schemaStore = new \Dradisic\KafkaSchema\Schema\SchemaStore($schemasDirectory);
+$metadataManager = new \Dradisic\KafkaSchema\Schema\SchemaMetadataManager($schemaStore);
+$schemaManager = new \Dradisic\KafkaSchema\Service\SchemaManager($schemaStore, $metadataManager);
+
+// Add commands manually
+$application->add(new \Dradisic\KafkaSchema\Command\SchemaListCommand($schemaStore, $metadataManager));
+$application->add(new \Dradisic\KafkaSchema\Command\SchemaValidateCommand($schemaManager));
+$application->add(new \Dradisic\KafkaSchema\Command\SchemaMigrationCommand($schemaStore, $metadataManager, $schemaManager));
+
 $application->run($input);
