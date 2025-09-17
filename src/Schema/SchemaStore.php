@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Schema;
+namespace Dradisic\KafkaSchema\Schema;
 
-use App\Schema\Exception\SchemaNotFoundException;
-use App\Schema\Exception\SchemaValidationException;
+use Dradisic\KafkaSchema\Schema\Exception\SchemaNotFoundException;
+use Dradisic\KafkaSchema\Schema\Exception\SchemaValidationException;
 use Symfony\Component\Yaml\Yaml;
 
 class SchemaStore

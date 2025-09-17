@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests\Performance;
+namespace Dradisic\KafkaSchema\Tests\Performance;
 
-use App\Schema\SchemaStore;
-use App\Service\SchemaManager;
-use App\Schema\SchemaMetadataManager;
+use Dradisic\KafkaSchema\Schema\SchemaStore;
+use Dradisic\KafkaSchema\Service\SchemaManager;
+use Dradisic\KafkaSchema\Schema\SchemaMetadataManager;
 use PHPUnit\Framework\TestCase;
 
 class SchemaBenchmark extends TestCase

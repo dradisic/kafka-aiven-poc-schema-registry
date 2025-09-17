@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace Dradisic\KafkaSchema\Service;
 
-use App\Schema\Exception\SchemaNotFoundException;
-use App\Schema\Exception\SchemaValidationException;
-use App\Schema\SchemaMetadataManager;
-use App\Schema\SchemaStore;
+use Dradisic\KafkaSchema\Schema\Exception\SchemaNotFoundException;
+use Dradisic\KafkaSchema\Schema\Exception\SchemaValidationException;
+use Dradisic\KafkaSchema\Schema\SchemaMetadataManager;
+use Dradisic\KafkaSchema\Schema\SchemaStore;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 

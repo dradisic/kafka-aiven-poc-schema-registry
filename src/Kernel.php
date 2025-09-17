@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Dradisic\KafkaSchema;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

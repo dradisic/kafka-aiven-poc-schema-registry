@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Schema;
+namespace Dradisic\KafkaSchema\Schema;
 
 class SchemaMetadata
 {

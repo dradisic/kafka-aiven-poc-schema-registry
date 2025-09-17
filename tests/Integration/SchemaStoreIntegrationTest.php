@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests\Integration;
+namespace Dradisic\KafkaSchema\Tests\Integration;
 
-use App\Schema\Exception\SchemaNotFoundException;
-use App\Schema\Exception\SchemaValidationException;
-use App\Schema\SchemaStore;
+use Dradisic\KafkaSchema\Schema\Exception\SchemaNotFoundException;
+use Dradisic\KafkaSchema\Schema\Exception\SchemaValidationException;
+use Dradisic\KafkaSchema\Schema\SchemaStore;
 use PHPUnit\Framework\TestCase;
 
 class SchemaStoreIntegrationTest extends TestCase

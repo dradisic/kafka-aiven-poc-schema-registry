@@ -38,9 +38,9 @@ schemas/
 ### Basic Usage
 
 ```php
-use App\Schema\SchemaStore;
-use App\Schema\SchemaMetadataManager;
-use App\Service\SchemaManager;
+use Dradisic\KafkaSchema\Schema\SchemaStore;
+use Dradisic\KafkaSchema\Schema\SchemaMetadataManager;
+use Dradisic\KafkaSchema\Service\SchemaManager;
 
 // Initialize the filesystem schema manager
 $schemaStore = new SchemaStore('schemas');
@@ -57,6 +57,22 @@ $isValid = $schemaManager->validateData($data, 'message');
 // Get all available schemas
 $allSchemas = $schemaManager->getAllSchemas();
 ```
+
+### Backwards Compatibility
+
+For existing code using the `App\` namespace, this library provides full backwards compatibility through class aliases:
+
+```php
+// Old namespace (still works)
+use App\Schema\SchemaStore;
+use App\Service\SchemaManager;
+
+// New namespace (recommended)
+use Dradisic\KafkaSchema\Schema\SchemaStore;
+use Dradisic\KafkaSchema\Service\SchemaManager;
+```
+
+Both approaches work identically. You can migrate to the new namespace at your own pace.
 
 ### Console Commands
 

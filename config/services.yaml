@@ -6,7 +6,7 @@ services:
         public: false
 
     # Make classes in src/ available for dependency injection
-    App\:
+    Dradisic\KafkaSchema\:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
@@ -14,50 +14,50 @@ services:
             - '../src/Kernel.php'
 
     # Schema Store configuration
-    App\Schema\SchemaStore:
+    Dradisic\KafkaSchema\Schema\SchemaStore:
         arguments:
             $schemasDirectory: '%kernel.project_dir%/schemas'
             $cacheEnabled: true
 
     # Schema Metadata Manager
-    App\Schema\SchemaMetadataManager:
+    Dradisic\KafkaSchema\Schema\SchemaMetadataManager:
         arguments:
-            $schemaStore: '@App\Schema\SchemaStore'
+            $schemaStore: '@Dradisic\KafkaSchema\Schema\SchemaStore'
 
     # Filesystem Schema Resolver
-    App\Schema\Resolver\FilesystemSchemaResolver:
+    Dradisic\KafkaSchema\Schema\Resolver\FilesystemSchemaResolver:
         arguments:
-            $schemaStore: '@App\Schema\SchemaStore'
+            $schemaStore: '@Dradisic\KafkaSchema\Schema\SchemaStore'
 
     # Schema Manager (main service)
-    App\Service\SchemaManager:
+    Dradisic\KafkaSchema\Service\SchemaManager:
         arguments:
-            $schemaStore: '@App\Schema\SchemaStore'
-            $metadataManager: '@App\Schema\SchemaMetadataManager'
+            $schemaStore: '@Dradisic\KafkaSchema\Schema\SchemaStore'
+            $metadataManager: '@Dradisic\KafkaSchema\Schema\SchemaMetadataManager'
             $logger: '@logger'
 
     # Interface binding
-    App\Service\SchemaManagerInterface: '@App\Service\SchemaManager'
+    Dradisic\KafkaSchema\Service\SchemaManagerInterface: '@Dradisic\KafkaSchema\Service\SchemaManager'
 
     # Commands
-    App\Command\SchemaMigrationCommand:
+    Dradisic\KafkaSchema\Command\SchemaMigrationCommand:
         arguments:
-            $schemaStore: '@App\Schema\SchemaStore'
-            $metadataManager: '@App\Schema\SchemaMetadataManager'
-            $schemaManager: '@App\Service\SchemaManagerInterface'
+            $schemaStore: '@Dradisic\KafkaSchema\Schema\SchemaStore'
+            $metadataManager: '@Dradisic\KafkaSchema\Schema\SchemaMetadataManager'
+            $schemaManager: '@Dradisic\KafkaSchema\Service\SchemaManagerInterface'
         tags:
             - { name: console.command }
 
-    App\Command\SchemaListCommand:
+    Dradisic\KafkaSchema\Command\SchemaListCommand:
         arguments:
-            $schemaStore: '@App\Schema\SchemaStore'
-            $metadataManager: '@App\Schema\SchemaMetadataManager'
+            $schemaStore: '@Dradisic\KafkaSchema\Schema\SchemaStore'
+            $metadataManager: '@Dradisic\KafkaSchema\Schema\SchemaMetadataManager'
         tags:
             - { name: console.command }
 
-    App\Command\SchemaValidateCommand:
+    Dradisic\KafkaSchema\Command\SchemaValidateCommand:
         arguments:
-            $schemaManager: '@App\Service\SchemaManagerInterface'
+            $schemaManager: '@Dradisic\KafkaSchema\Service\SchemaManagerInterface'
         tags:
             - { name: console.command }
 

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Schema;
+namespace Dradisic\KafkaSchema\Tests\Unit\Schema;
 
-use App\Schema\SchemaMetadata;
-use App\Schema\SchemaMetadataManager;
-use App\Schema\SchemaStore;
+use Dradisic\KafkaSchema\Schema\SchemaMetadata;
+use Dradisic\KafkaSchema\Schema\SchemaMetadataManager;
+use Dradisic\KafkaSchema\Schema\SchemaStore;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

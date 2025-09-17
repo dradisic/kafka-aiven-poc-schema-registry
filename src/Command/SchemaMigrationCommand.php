@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Command;
+namespace Dradisic\KafkaSchema\Command;
 
-use App\Schema\SchemaMetadata;
-use App\Schema\SchemaMetadataManager;
-use App\Schema\SchemaStore;
-use App\Service\SchemaManagerInterface;
+use Dradisic\KafkaSchema\Schema\SchemaMetadata;
+use Dradisic\KafkaSchema\Schema\SchemaMetadataManager;
+use Dradisic\KafkaSchema\Schema\SchemaStore;
+use Dradisic\KafkaSchema\Service\SchemaManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

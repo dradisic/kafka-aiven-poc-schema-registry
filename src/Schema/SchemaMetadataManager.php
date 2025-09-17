@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Schema;
+namespace Dradisic\KafkaSchema\Schema;
 
-use App\Schema\Exception\CompatibilityException;
-use App\Schema\Exception\SchemaNotFoundException;
+use Dradisic\KafkaSchema\Schema\Exception\CompatibilityException;
+use Dradisic\KafkaSchema\Schema\Exception\SchemaNotFoundException;
 
 class SchemaMetadataManager
 {

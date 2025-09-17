@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Service;
+namespace Dradisic\KafkaSchema\Tests\Unit\Service;
 
-use App\Schema\Exception\SchemaNotFoundException;
-use App\Schema\SchemaMetadataManager;
-use App\Schema\SchemaStore;
-use App\Service\SchemaManager;
+use Dradisic\KafkaSchema\Schema\Exception\SchemaNotFoundException;
+use Dradisic\KafkaSchema\Schema\SchemaMetadataManager;
+use Dradisic\KafkaSchema\Schema\SchemaStore;
+use Dradisic\KafkaSchema\Service\SchemaManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;

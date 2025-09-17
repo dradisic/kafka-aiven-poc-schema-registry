@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Schema\Resolver;
+namespace Dradisic\KafkaSchema\Schema\Resolver;
 
-use App\Schema\Exception\SchemaNotFoundException;
-use App\Schema\SchemaStore;
+use Dradisic\KafkaSchema\Schema\Exception\SchemaNotFoundException;
+use Dradisic\KafkaSchema\Schema\SchemaStore;
 use FlixTech\AvroSerializer\Objects\RecordSerializer;
 
 class FilesystemSchemaResolver
