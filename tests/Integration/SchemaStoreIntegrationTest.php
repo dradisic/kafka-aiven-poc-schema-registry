@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Dradisic\KafkaSchema\Tests\Integration;
 
-use Dradisic\KafkaSchema\Schema\Exception\SchemaNotFoundException;
-use Dradisic\KafkaSchema\Schema\Exception\SchemaValidationException;
 use Dradisic\KafkaSchema\Schema\SchemaStore;
 use PHPUnit\Framework\TestCase;
 
@@ -17,13 +15,13 @@ class SchemaStoreIntegrationTest extends TestCase
     protected function setUp(): void
     {
         // Create a temporary directory for real filesystem tests
-        $this->tempDirectory = sys_get_temp_dir() . '/schema_test_' . uniqid();
+        $this->tempDirectory = sys_get_temp_dir().'/schema_test_'.uniqid();
         mkdir($this->tempDirectory, 0755, true);
-        
+
         // Create test schema structure
-        $messageDir = $this->tempDirectory . '/message';
+        $messageDir = $this->tempDirectory.'/message';
         mkdir($messageDir, 0755, true);
-        
+
         $schema = [
             'type' => 'record',
             'name' => 'Message',
@@ -32,9 +30,9 @@ class SchemaStoreIntegrationTest extends TestCase
                 ['name' => 'content', 'type' => 'string'],
             ],
         ];
-        
-        file_put_contents($messageDir . '/v1.avsc', json_encode($schema, JSON_PRETTY_PRINT));
-        
+
+        file_put_contents($messageDir.'/v1.avsc', json_encode($schema, JSON_PRETTY_PRINT));
+
         $metadata = 'name: message
 description: Test message schema
 compatibility: BACKWARD
@@ -43,8 +41,8 @@ updated_at: "2024-01-15T10:30:00Z"
 version: 1
 tags:
   - test';
-        
-        file_put_contents($messageDir . '/schema.meta.yaml', $metadata);
+
+        file_put_contents($messageDir.'/schema.meta.yaml', $metadata);
 
         $this->schemaStore = new SchemaStore($this->tempDirectory);
     }
@@ -61,7 +59,7 @@ tags:
     {
         $files = array_diff(scandir($dir), ['.', '..']);
         foreach ($files as $file) {
-            $path = $dir . DIRECTORY_SEPARATOR . $file;
+            $path = $dir.DIRECTORY_SEPARATOR.$file;
             if (is_dir($path)) {
                 $this->removeDirectory($path);
             } else {
@@ -74,7 +72,7 @@ tags:
     public function testLoadSchemaSuccess(): void
     {
         $schema = $this->schemaStore->loadSchema('message', 1);
-        
+
         $this->assertEquals('record', $schema['type']);
         $this->assertEquals('Message', $schema['name']);
         $this->assertCount(2, $schema['fields']);
@@ -118,10 +116,10 @@ tags:
         ];
 
         $this->schemaStore->saveSchema('user_event', $newSchema, 1);
-        
+
         $loadedSchema = $this->schemaStore->loadSchema('user_event', 1);
         $this->assertEquals($newSchema, $loadedSchema);
-        
+
         $versions = $this->schemaStore->getSchemaVersions('user_event');
         $this->assertEquals([1], $versions);
     }

@@ -58,21 +58,23 @@ $isValid = $schemaManager->validateData($data, 'message');
 $allSchemas = $schemaManager->getAllSchemas();
 ```
 
-### Backwards Compatibility
+### Integration with Existing Applications
 
-For existing code using the `App\` namespace, this library provides full backwards compatibility through class aliases:
+This library uses the proper vendor namespace `Dradisic\KafkaSchema\` to prevent conflicts with consuming applications:
 
 ```php
-// Old namespace (still works)
-use App\Schema\SchemaStore;
-use App\Service\SchemaManager;
-
-// New namespace (recommended)
 use Dradisic\KafkaSchema\Schema\SchemaStore;
+use Dradisic\KafkaSchema\Schema\SchemaMetadataManager;
 use Dradisic\KafkaSchema\Service\SchemaManager;
-```
+use Dradisic\KafkaSchema\Service\SchemaManagerInterface;
 
-Both approaches work identically. You can migrate to the new namespace at your own pace.
+// Dependency injection example
+$container->bind(SchemaManagerInterface::class, function () {
+    $schemaStore = new SchemaStore('schemas');
+    $metadataManager = new SchemaMetadataManager($schemaStore);
+    return new SchemaManager($schemaStore, $metadataManager);
+});
+```
 
 ### Console Commands
 

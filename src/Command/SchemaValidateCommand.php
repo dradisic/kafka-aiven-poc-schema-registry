@@ -47,9 +47,10 @@ Examples:
         $messageType = $input->getArgument('messageType');
         $dataInput = $input->getArgument('data');
         $isFile = (bool) $input->getOption('file');
-        
+
         if (!is_string($messageType) || !is_string($dataInput)) {
             $io->error('Invalid arguments provided');
+
             return Command::FAILURE;
         }
 
@@ -64,6 +65,7 @@ Examples:
                 $jsonData = file_get_contents($dataInput);
                 if (false === $jsonData) {
                     $io->error("Could not read file: {$dataInput}");
+
                     return Command::FAILURE;
                 }
             } else {
@@ -77,9 +79,10 @@ Examples:
 
                 return Command::FAILURE;
             }
-            
+
             if (!is_array($data)) {
                 $io->error('JSON data must be an array/object');
+
                 return Command::FAILURE;
             }
 

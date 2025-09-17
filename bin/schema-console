@@ -3,12 +3,12 @@
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-use App\Schema\SchemaStore;
-use App\Schema\SchemaMetadataManager;
-use App\Service\SchemaManager;
-use App\Command\SchemaListCommand;
-use App\Command\SchemaValidateCommand;
-use App\Command\SchemaMigrationCommand;
+use Dradisic\KafkaSchema\Schema\SchemaStore;
+use Dradisic\KafkaSchema\Schema\SchemaMetadataManager;
+use Dradisic\KafkaSchema\Service\SchemaManager;
+use Dradisic\KafkaSchema\Command\SchemaListCommand;
+use Dradisic\KafkaSchema\Command\SchemaValidateCommand;
+use Dradisic\KafkaSchema\Command\SchemaMigrationCommand;
 use Symfony\Component\Console\Application;
 
 $application = new Application('Schema Registry Console', '1.0.0');

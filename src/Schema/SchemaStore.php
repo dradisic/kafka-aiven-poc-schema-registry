@@ -45,7 +45,7 @@ class SchemaStore
         if (JSON_ERROR_NONE !== json_last_error()) {
             throw new SchemaValidationException("Invalid JSON in schema file {$schemaPath}: ".json_last_error_msg());
         }
-        
+
         if (!is_array($schema)) {
             throw new SchemaValidationException("Schema must be an array in {$schemaPath}");
         }

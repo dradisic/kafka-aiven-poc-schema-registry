@@ -9,4 +9,4 @@ parameters:
     ignoreErrors:
         -
             identifier: missingType.iterableValue
-        - '#Property App\\Command\\SchemaMigrationCommand::\$schemaManager is never read#'
+        - '#Property Dradisic\\KafkaSchema\\Command\\SchemaMigrationCommand::\$schemaManager is never read#'
