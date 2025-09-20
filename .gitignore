@@ -1,95 +1,16 @@
-# Composer dependencies
-/vendor/
-composer.phar
-composer.lock.bak
-
-# IDE and Editor files
+# Editors & IDEs
 /.idea/
 /.vscode/
 *.swp
-*.swo
 *~
+
+# OS files
 .DS_Store
 Thumbs.db
 
-# PHP CS Fixer
-/.php-cs-fixer.cache
-/.php-cs-fixer.dist.php
+# Composer artefacts (not tracked in this schema library)
+/vendor/
+/composer.lock
 
-# PHPUnit and Coverage
-/coverage/
-/.phpunit.cache
-/.phpunit.result.cache
-/phpunit.xml.bak
-/clover.xml
-/coverage.xml
-/coverage.clover
-
-# PHPStan and Psalm
-/.phpstan.cache
-/psalm.cache
-/.psalm/
-
-# Logs and Runtime
-/var/log/
-/var/cache/
-/var/tmp/
-*.log
-
-# Environment and Configuration
-.env
-.env.local
-.env.*.local
-/config/local.php
-/config/autoload/local.php
-/config/autoload/development.local.php
-
-# Build and Distribution
-/build/
-/dist/
-
-# Testing artifacts
-/tmp/
-/temp/
-/.phpunit.result.cache
-
-# Backup files
-*.bak
-*.backup
-*.orig
-
-# Cache directories
-/cache/
-
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# Node.js (if using any front-end tooling)
-/node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Symfony specific (since project uses Symfony components)
-/var/
-/bin/phpunit
-/phpunit.xml
-/config/jwt/
-/.env.test.local
-
-# Schema artifacts that should be version controlled
-# Note: keeping schemas/ directory in version control as per project requirements
-# /schemas/
-
-# Local development files
+# Local developer settings
 /settings.local.json
-
-/CLAUDE.md
-/.claude/
-/filesystem-schema-library.md

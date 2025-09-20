@@ -1,192 +1,28 @@
-# Filesystem-Based Schema Management Library
+# Kafka Aiven PoC Schema Library
 
-A complete PHP library for managing Avro schemas using filesystem storage, eliminating the need for external schema registry services like Aiven Schema Registry.
+This repository is a lightweight catalogue of Avro schemas used in the Kafka Aiven proof-of-concept. It deliberately ships **only** versioned schema definitions and human-readable metadata so the assets can be shared across services regardless of runtime or language.
 
-## Features
+## Layout
 
-- ✅ **Filesystem Storage**: Store schemas as `.avsc` files with YAML metadata
-- ✅ **Version Management**: Full schema versioning with compatibility validation
-- ✅ **Performance Optimized**: <50ms schema loading with intelligent caching
-- ✅ **Complete Interface Compatibility**: Drop-in replacement maintaining all existing `SchemaManagerInterface` methods
-- ✅ **Console Commands**: Full CLI for schema management and migration
-- ✅ **High Quality**: 100% PHPStan level max, comprehensive test coverage
-- ✅ **Migration Tools**: Export hardcoded schemas to filesystem storage
+- `schemas/registry.yaml` – high-level registry metadata (name, default compatibility, cache hints).
+- `schemas/<schema-name>/vN.avsc` – schema definitions per message type and version.
+- `schemas/<schema-name>/schema.meta.yaml` – optional descriptive metadata for teams and tooling.
 
-## Quick Start
+## Consuming the schemas
 
-### Installation
+1. Add this repository as a git submodule, Composer dependency, or copy the `schemas/` folder into your deployment pipeline.
+2. Point your serializer/deserializer tooling to the `schemas/` directory.
+3. Select the schema by folder name and, if needed, the version via the `vN.avsc` file suffix.
 
-```bash
-composer install
-```
+The repository no longer publishes PHP helper classes or Symfony tooling. Any runtime-specific integration should live in the consuming service.
 
-### Directory Structure
+## Contributing
 
-The library organizes schemas in a structured directory format:
-
-```
-schemas/
-├── message/
-│   ├── v1.avsc                 # Avro schema file
-│   └── schema.meta.yaml        # Metadata (version, compatibility, etc.)
-├── user_event/
-│   ├── v1.avsc
-│   └── schema.meta.yaml
-└── registry.yaml               # Global registry configuration
-```
-
-### Basic Usage
-
-```php
-use Dradisic\KafkaSchema\Schema\SchemaStore;
-use Dradisic\KafkaSchema\Schema\SchemaMetadataManager;
-use Dradisic\KafkaSchema\Service\SchemaManager;
-
-// Initialize the filesystem schema manager
-$schemaStore = new SchemaStore('schemas');
-$metadataManager = new SchemaMetadataManager($schemaStore);
-$schemaManager = new SchemaManager($schemaStore, $metadataManager);
-
-// Load a schema
-$schema = $schemaManager->getSchema('message');
-
-// Validate data against schema
-$data = ['id' => '123', 'timestamp' => time(), 'payload' => 'Hello World'];
-$isValid = $schemaManager->validateData($data, 'message');
-
-// Get all available schemas
-$allSchemas = $schemaManager->getAllSchemas();
-```
-
-### Integration with Existing Applications
-
-This library uses the proper vendor namespace `Dradisic\KafkaSchema\` to prevent conflicts with consuming applications:
-
-```php
-use Dradisic\KafkaSchema\Schema\SchemaStore;
-use Dradisic\KafkaSchema\Schema\SchemaMetadataManager;
-use Dradisic\KafkaSchema\Service\SchemaManager;
-use Dradisic\KafkaSchema\Service\SchemaManagerInterface;
-
-// Dependency injection example
-$container->bind(SchemaManagerInterface::class, function () {
-    $schemaStore = new SchemaStore('schemas');
-    $metadataManager = new SchemaMetadataManager($schemaStore);
-    return new SchemaManager($schemaStore, $metadataManager);
-});
-```
-
-### Console Commands
-
-#### List Schemas
-```bash
-php bin/schema-console schema:list
-```
-
-#### Validate Data
-```bash
-php bin/schema-console schema:validate message '{"id":"123","timestamp":1234567890,"payload":"test"}'
-```
-
-#### Migrate Hardcoded Schemas
-```bash
-php bin/schema-console schema:migrate --export-hardcoded
-```
-
-## Architecture
-
-### Core Components
-
-- **`SchemaStore`**: Handles filesystem operations for `.avsc` files
-- **`SchemaMetadataManager`**: Manages versions and compatibility validation  
-- **`SchemaManager`**: Main service implementing `SchemaManagerInterface`
-- **`FilesystemSchemaResolver`**: Integration with flix-tech/avro-serde-php
-- **Console Commands**: CLI tools for schema management
-
-### Schema Format
-
-**Avro Schema (v1.avsc)**:
-```json
-{
-    "type": "record",
-    "name": "Message", 
-    "namespace": "com.example.kafka",
-    "fields": [
-        {"name": "id", "type": "string"},
-        {"name": "timestamp", "type": "long"},
-        {"name": "payload", "type": "string"}
-    ]
-}
-```
-
-**Metadata (schema.meta.yaml)**:
-```yaml
-name: "message"
-description: "Standard Kafka message format"
-compatibility: "BACKWARD"
-created_at: "2024-01-15T10:30:00Z"
-updated_at: "2024-01-15T10:30:00Z" 
-version: 1
-tags: ["core", "messaging"]
-```
-
-## Performance
-
-Optimized for high-performance schema operations:
-
-- **Schema Loading**: 0.05ms average (requirement: <50ms) ✅
-- **Cached Loading**: 0.027ms average ✅
-- **Validation**: 0.011ms per operation ✅
-- **Memory Usage**: Minimal footprint with intelligent caching ✅
-
-## Quality Standards
-
-- **PHPStan**: Level max compliance ✅
-- **Code Style**: PSR-12 with automated fixes ✅
-- **Test Coverage**: Comprehensive unit and integration tests ✅
-- **Performance**: All requirements met with margin ✅
-
-## Dependencies
-
-- `flix-tech/avro-serde-php`: Avro serialization support
-- `symfony/yaml`: YAML metadata parsing
-- `symfony/console`: CLI commands
-- `psr/log`: Logging interface
-
-## Development
-
-### Running Tests
-
-```bash
-# Unit tests
-composer test
-
-# Integration tests  
-vendor/bin/phpunit --testsuite=integration
-
-# Performance benchmarks
-vendor/bin/phpunit tests/Performance/
-```
-
-### Quality Checks
-
-```bash
-# All quality checks
-composer quality
-
-# Individual checks
-composer phpstan    # Static analysis
-composer cs-check   # Code style
-```
-
-### Migration from Hardcoded Schemas
-
-This library provides tools to migrate from hardcoded schemas:
-
-1. **Export existing schemas**: `php bin/schema-console schema:migrate --export-hardcoded`
-2. **Validate migration**: `php bin/schema-console schema:migrate --validate`
-3. **Update code**: Replace hardcoded `SchemaManager` with filesystem-based implementation
+- Keep schemas backward compatible unless there is a coordinated breaking change.
+- Update `schema.meta.yaml` when adding context, owners, or tags.
+- Reflect repository-wide metadata changes in `schemas/registry.yaml`.
+- Validate new schemas with your preferred Avro tooling (e.g. `avro-tools` or the Confluent CLI) before opening a pull request.
 
 ## License
 
-MIT License - see LICENSE file for details.
+MIT License.
